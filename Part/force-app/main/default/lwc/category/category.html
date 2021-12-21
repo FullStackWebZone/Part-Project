@@ -1,0 +1,201 @@
+<template>
+  <div class="container row">
+    <div class="slds-split-view_container slds-is-open categoriespart column">
+      <header class="slds-split-view__header" style="background-color:rgba(243, 243, 243, 0.9);">
+        <div class="slds-grid slds-grid_vertical-align-center slds-m-bottom_xx-small" style="margin-top: 8px;">
+          <div class="slds-has-flexi-truncate">
+            <div class="slds-media slds-media_center">
+
+              <lightning-icon icon-name="standard:account" alternative-text="Account" title="Account"></lightning-icon>
+              <div class="slds-media__body">
+                <h1 class="slds-text-heading_small slds-text-color_default slds-p-right_x-small"
+                  style="text-decoration: none;  font-size: 17px;">
+
+                  <span class="slds-grid slds-has-flexi-truncate slds-grid_vertical-align-center">
+                    <span class="slds-truncate" title="My Leads">&nbsp; <b>Categories & SubCategories</b></span>
+                  </span>
+
+                </h1>
+              </div>
+            </div>
+          </div>
+
+          <div class="slds-p-around_medium lgc-bg">
+            <lightning-button-menu alternative-text="Show menu" menu-alignment="right">
+              <lightning-menu-item value="MenuItemOne" label="Add New Category" onclick={ShowCategoryPopup}>
+              </lightning-menu-item>
+              <lightning-menu-item value="MenuItemTwo" label="Add New SubCategory" disabled></lightning-menu-item>
+              <lightning-menu-item value="MenuItemThree" label="Info" disabled></lightning-menu-item>
+              <lightning-menu-item value="MenuItemFour" label="Edit" disabled></lightning-menu-item>
+              <lightning-menu-item value="MenuItemFour" label="Delete" disabled></lightning-menu-item>
+            </lightning-button-menu>
+          </div>
+          <!-- Add new category popup -->
+          <template if:true={newcategory}>
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+              aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+              <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                  <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close"
+                    onclick={hideCategoryPopup}>
+                    <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse" size="small">
+                    </lightning-icon>
+                    <span class="slds-assistive-text">Close</span>
+                  </button>
+                  <h2 class="slds-text-heading_medium" style="font-size: 14;">Add New Category</h2>
+                </header>
+                <lightning-record-edit-form object-api-name="Category__c">
+                  <div class="slds-grid slds-wrap" style="background-color: white;">
+                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal--large slds-m-bottom_large">
+                      <lightning-input-field field-name="Name" label="Category Name" required="">
+                      </lightning-input-field>
+                    </div>
+                    <!-- <br><br> -->
+                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal--medium slds-m-bottom_medium">
+                      <lightning-input-field field-name="Category_Prefix__c" label="Category Prefix" required="">
+                      </lightning-input-field>
+                    </div>
+                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal--medium slds-m-bottom_medium"
+                      style="margin-left: 5px;">
+                      <lightning-input-field field-name="Category_Id__c" label="Category Id"></lightning-input-field>
+                    </div>
+                  </div>
+                </lightning-record-edit-form>
+                <footer class="slds-modal__footer" style="display: flex; align-items: center; justify-content: right;">
+                  <lightning-button class="slds-m-right_x-small" label="Cancel" onclick={hideCategoryPopup}>
+                  </lightning-button>
+                  <lightning-button class="slds-m-right_x-small" variant="brand" label="Done" onclick={category_save}>
+                  </lightning-button>
+                </footer>
+              </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+          </template>
+</div>
+<div class="slds-grid slds-grid_vertical-align-center">
+    <p class="slds-text-body_small slds-text-color_weak" style="color:black; font-size: 15px;">1 Categories Found
+    </p>
+    <br>
+</div>
+
+<lightning-input type="search" class="slds-m-bottom_small category_search" placeholder="Search for categories / sub categories / parts" onchange={searchAccountAction} value={accountName} style="min-height: 60px; margin-top: -10px;"></lightning-input>
+
+</header>
+<div class="slds-p-around_medium lgc-bg category_name">
+    <lightning-tree items={items} header="Category Name:"></lightning-tree>
+</div>
+
+</div>
+
+<div class="part_container border">
+    <header class="slds-split-view__header" style="background-color: rgba(243, 243, 243, 0.9);">
+        <div class="slds-grid slds-grid_vertical-align-center slds-m-bottom_xx-small">
+            <div class="slds-has-flexi-truncate">
+                <div class="slds-media slds-media_center">
+                    <lightning-icon icon-name="standard:account" alternative-text="Account" title="Account"></lightning-icon>
+                    <div class="slds-media__body">
+                        <h1 class="slds-text-heading_small slds-text-color_default slds-p-right_x-small" style="text-decoration: none;  font-size: 17px;">
+                            <span class="slds-grid slds-has-flexi-truncate slds-grid_vertical-align-center">
+                    <span class="slds-truncate" title="My Leads">&nbsp; <b>Parts</b></span>
+                            </span>
+                        </h1>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-p-around_medium lgc-bg">
+                <lightning-button variant="brand" label="Add Part" title="Primary action" onclick={showPartPopup} class="slds-m-left_x-small"></lightning-button>
+                <!-- Add new part popup -->
+                <template if:true={newpart}>
+              <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+                aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                  <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                      title="Close" onclick={hidePartPopup}>
+                      <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse" size="small">
+                      </lightning-icon>
+                      <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 class="slds-text-heading_medium slds-hyphenate">Add New Part</h2>
+                  </header>
+                  <div class="slds-modal__content slds-p-around_medium">
+                    <lightning-record-edit-form object-api-name="Part__c" onsuccess={handleSuccess}>
+                      <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-size_6-of-12 slds-p-horizontal--medium slds-m-bottom_medium">
+                          <p>category <b>Metal</b></p>
+                        </div>
+                        <div class="slds-col slds-size_6-of-12 slds-p-horizontal--medium slds-m-bottom_medium">
+                          <p>SubCategory <b>Bolts</b></p>
+                        </div>
+                        <div class="slds-col slds-p-horizontal_medium">
+                          <lightning-input-field field-name="Part_Number__c" label="Part Number">
+                          </lightning-input-field>
+                        </div>
+                        <div class="slds-col slds-p-horizontal_medium">
+                          <lightning-input-field field-name="Name" label="Name" required=""></lightning-input-field>
+                        </div>
+                        <div class="slds-col slds-size_12-of-12" style="padding: 0 12px;">
+                          <lightning-input-field field-name="Part_Description__c" label="Part Description" required="">
+                          </lightning-input-field>
+                        </div>
+                        <div class="slds-col slds-size_6-of-12 slds-p-horizontal--medium slds-m-bottom_medium">
+                          <lightning-input-field field-name="Unit_of_Measure__c" label="Unit of Measure" required="">
+                          </lightning-input-field>
+                        </div>
+                        <div class="slds-col slds-size_6-of-12 slds-p-horizontal--medium slds-m-bottom_medium">
+                          <lightning-input-field field-name="Measurement__c" label="Measurement" required="">
+                          </lightning-input-field>
+                        </div>
+                        <div class="slds-col slds-size_6-of-12 slds-p-horizontal--medium slds-m-bottom_medium">
+                          <lightning-input-field field-name="Status__c" label="Status" required="">
+                          </lightning-input-field>
+                        </div>
+
+                      </div>
+                      <div class="slds-m-around_medium" style="margin-top: -10px; margin-left: 20px;">
+                        <label>Upload File</label>
+                        <lightning-input type="file" accept=".xlsx, .xls, .csv, .png, .doc, .docx, .pdf"
+                          onchange={openfileUpload}></lightning-input>
+                      </div>
+                      <template if:true={fileData}>
+                        <p>{fileData.filename}</p>
+                      </template>
+                </lightning-record-edit-form>
+            </div>
+            <footer class="slds-modal__footer" style="display: flex; align-items: center; justify-content: right;">
+                <lightning-button class="slds-m-right_x-small" label="Cancel" onclick={hidePartPopup}>
+                </lightning-button>
+                <lightning-button class="slds-m-right_x-small" variant="brand" label="Done" onclick={handlesavePart}></lightning-button>
+            </footer>
+        </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+</div>
+</div>
+<div class="slds-grid slds-grid_vertical-align-center">
+    <p class="slds-text-body_small slds-text-color_weak" style="color:black; font-size: 15px; margin-top: -20px;">
+        1 Part(s) added</p>
+    <lightning-input type="search" class="slds-m-bottom_small part_search" placeholder="Search for parts" onchange={searchAccountAction} value={accountName} style="min-height: 40px; margin-top: -25px;">
+    </lightning-input>
+    <lightning-button-menu alternative-text="Show menu" tooltip="Left alignment (default)" icon-name="utility:settings" class="slds-m-left_xx-large" style="margin-top: -20px; margin-left: 10px;">
+        <lightning-menu-item value="MenuItemOne" label="Menu Item One"></lightning-menu-item>
+        <lightning-menu-item value="MenuItemTwo" label="Menu Item Two"></lightning-menu-item>
+        <lightning-menu-item value="MenuItemThree" label="Menu Item Three"></lightning-menu-item>
+        <lightning-menu-item value="MenuItemFour" label="Menu Item Four"></lightning-menu-item>
+    </lightning-button-menu>
+
+</div>
+</header>
+<template if:true={parts.data}>
+        <lightning-datatable key-field="Id" data={parts.data} columns={columns}>
+        </lightning-datatable>
+      </template>
+</div>
+
+
+
+</div>
+
+
+</template>

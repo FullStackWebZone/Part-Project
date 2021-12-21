@@ -1,0 +1,48 @@
+.container {
+    min-width: auto;
+    /* margin: 10px auto 0; */
+    padding: 0px;
+    display: table;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.column {
+    display: table-cell;
+}
+
+.categoriespart {
+    height: 100vh;
+    background-color: #fff;
+}
+
+.table {
+    width: 1000px;
+    min-height: 100vh;
+}
+
+.bgimage {
+    width: 200px;
+    height: 200px;
+    opacity: 0.5;
+    margin-top: 200px;
+    margin-left: 100px;
+}
+
+.part_container {
+    min-height: 100vh;
+    /* margin-top: -10px; */
+    background-color: #fff;
+}
+
+.border {
+    border: 8px solid rgb(221, 221, 221);
+}
+
+.part_search {
+    margin-left: 590px;
+}
+
+.category_search {
+    width: 430px;
+}
